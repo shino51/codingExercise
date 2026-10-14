@@ -7,23 +7,36 @@ import java.util.List;
 
 public class LinkedListCycle2 {
   public ListNode detectCycle(ListNode head) {
-    if (head == null) {
-      return null;
-    }
-    List<ListNode> list = new ArrayList<>();
-    ListNode firstNodeOnCycle = detectCycle(head, list);
-    return firstNodeOnCycle;
-  }
+    // slow pointer and fast pointer solution
+    // fast pointer moves two
 
-  private ListNode detectCycle(ListNode current, List<ListNode> list) {
-    if (list.contains(current)) {
-      return current;
-    }
-    if (current.next == null) {
-      return null;
-    }
-    list.add(current);
+    ListNode slow = head, fast = head;
+    while (fast != null && fast.next != null) {
+      slow = slow.next;
+      fast = fast.next.next;
 
-    return detectCycle(current.next, list);
+      if (slow == fast) break;
+    }
+
+    if (fast == null || fast.next == null) return null;
+
+    fast = head;
+    // when we find the cycle (i.e. slow and fast meets somewhere), then break the loop
+    while (slow != fast) {
+      if (fast == null || fast.next == null) return null;
+      slow = slow.next;
+      fast = fast.next.next;
+    }
+
+    // now move the slow pointer back to the head
+    slow = head;
+
+    // now we move both slow and fast pointer one step.
+    // slow and fast meets at the beginning of the cycle
+    while (slow != fast) {
+      slow = slow.next;
+      fast = fast.next;
+    }
+    return fast;
   }
 }

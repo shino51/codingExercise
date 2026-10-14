@@ -38,10 +38,17 @@ public class LinkedListCycle2Test {
     assertThat(result).isEqualTo(root);
   }
 
-
   @Test
   public void test3() {
     ListNode root = new ListNode(1);
+
+    ListNode result = classUnderTest.detectCycle(root);
+    assertThat(result).isEqualTo(null);
+  }
+
+  @Test
+  public void test4() {
+    ListNode root = null;
 
     ListNode result = classUnderTest.detectCycle(root);
     assertThat(result).isEqualTo(null);
